@@ -40,10 +40,14 @@ export default function productsReducer(state = initialState, { type, payload })
 
   switch (type) {
     case 'FILTER':
-      const modifiedState = {
-        filteredProducts: allProducts.filter((product) => product.category === payload.category),
-      };
-      return { ...state, ...modifiedState };
+      if(payload.category === 'all') {
+        return initialState;
+      } else{
+        const modifiedState = {
+          filteredProducts: allProducts.filter((product) => product.category === payload.category),
+        };
+        return { ...state, ...modifiedState };
+      }
 
     case 'RESET':
       return initialState;
