@@ -1,10 +1,10 @@
 const initialState = {
-  activeCategory: 'electronics',
+  activeCategory: '',
   categories: [
-    { 
-      key: 'food', 
+    {
+      key: 'food',
       displayName: 'Food',
-      description: 'Human fuel' 
+      description: 'Human fuel',
     },
     {
       key: 'electronics',
@@ -25,6 +25,9 @@ export default function categoriesReducer(state = initialState, { type, payload 
       }
       return state;
 
+    case 'RESET':
+      return initialState;
+
     default:
       return state;
   }
@@ -34,5 +37,11 @@ export const setActiveCategory = (category) => {
   return {
     type: 'ACTIVE',
     payload: category,
-  }
-}
+  };
+};
+
+export const resetActiveCategory = () => {
+  return {
+    type: 'RESET',
+  };
+};
