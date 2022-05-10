@@ -29,7 +29,7 @@ export default function categoriesReducer(state = initialState, { type, payload 
   switch (type) {
     case 'ACTIVE':
       // action requires a payload object with property category
-      const selection = categories.find((category) => category.key === payload.category)
+      const selection = categories.find((category) => category.key === payload.category);
       if (selection) {
         return { ...state, activeCategory: selection };
       }
