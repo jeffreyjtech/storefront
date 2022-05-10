@@ -49,3 +49,16 @@ export default function productsReducer(state = initialState, { type, payload })
       return state;
   }
 }
+
+export const filterProducts = (category) => {
+  return {
+    type: 'FILTER',
+    payload: { category },
+  };
+};
+
+export const resetActiveCategory = () => {
+  return {
+    type: 'RESET',
+  };
+};
