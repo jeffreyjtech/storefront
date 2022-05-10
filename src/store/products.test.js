@@ -1,4 +1,4 @@
-import productsReducer, { filterProducts } from '../store/products';
+import productsReducer, { filterProducts } from './products';
 import { legacy_createStore as createStore } from 'redux';
 
 describe('Testing products store', () => {
