@@ -29,9 +29,23 @@ const initialState = {
       category: 'food',
     },
   ],
+  filteredProducts: [],
 };
 
 export default function productsReducer(state = initialState, { type, payload }) {
-  
-  
+  const { allProducts } = state;
+
+  switch (type) {
+    case 'FILTER':
+      const modifiedState = {
+        filteredProducts: allProducts.filter((product) => product.category === payload.category),
+      };
+      return { ...state, ...modifiedState };
+
+    case 'RESET':
+      return initialState;
+
+    default:
+      return state;
+  }
 }
