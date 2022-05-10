@@ -36,7 +36,7 @@ export default function categoriesReducer(state = initialState, { type, payload 
 export const setActiveCategory = (category) => {
   return {
     type: 'ACTIVE',
-    payload: category,
+    payload: { category },
   };
 };
 
