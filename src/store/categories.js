@@ -1,6 +1,15 @@
+const allItemsCategory = {
+  key: 'all',
+  displayName: 'All',
+  description: 'All categories',
+};
+
 const initialState = {
-  activeCategory: '',
+  activeCategory: allItemsCategory,
   categories: [
+    {
+      ...allItemsCategory,
+    },
     {
       key: 'food',
       displayName: 'Food',
@@ -20,8 +29,9 @@ export default function categoriesReducer(state = initialState, { type, payload 
   switch (type) {
     case 'ACTIVE':
       // action requires a payload object with property category
-      if (categories.includes(payload.category)) {
-        return { ...state, activeCategory: payload.category };
+      const selection = categories.find((category) => category.key === payload.category)
+      if (selection) {
+        return { ...state, activeCategory: selection };
       }
       return state;
 
