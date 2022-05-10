@@ -1,28 +1,28 @@
 
 const allProducts = [
   {
-    key: 'macbook',
+    productId: 'macbook',
     displayName: 'Macbook',
     description: 'An Apple computer',
     price: 999.99,
     category: 'electronics',
   },
   {
-    key: 'iphone',
+    productId: 'iphone',
     displayName: 'iPhone',
     description: "The most addictive thing you'll ever own",
     price: 1199.99,
     category: 'electronics',
   },
   {
-    key: 'banana',
+    productId: 'banana',
     displayName: 'Banana',
     description: 'A yellow fruit',
     price: 0.99,
     category: 'food',
   },
   {
-    key: 'apple',
+    productId: 'apple',
     displayName: 'Apple',
     description: 'The fruit kind',
     price: 2.49,
@@ -57,8 +57,10 @@ export default function productsReducer(state = initialState, { type, payload })
   }
 }
 
+// This is an action creator
 export const filterProducts = (category) => {
   return {
+    // And this is an action (I think)
     type: 'FILTER',
     payload: { category },
   };
