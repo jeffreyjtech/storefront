@@ -35,27 +35,29 @@ const allProducts = [
 
 const initialState = {
   allProducts,
-  filteredProducts: [...allProducts],
+  displayMask: allProducts.map((product) => true),
 };
 
 export default function productsReducer(state = initialState, { type, payload }) {
-  const { allProducts } = state;
+  const { allProducts, displayMask } = state;
 
   switch (type) {
     case 'FILTER':
-      const modifiedState = {
-        filteredProducts: allProducts.filter((product) => {
-          return product.category === payload.category;
-        }),
-      };
-      return { ...state, ...modifiedState };
+      const newDisplayMask = allProducts.map((product) =>
+        product.category === payload.category ? true : false
+      );
+
+      return { ...state, displayMask: newDisplayMask };
 
     case 'REMOVE-STOCK':
       // Find the product
-      const index = allProducts.indexOf(
-        (product) => product.productId === payload.product.productId
-      );
+      const index = allProducts.findIndex((product) => {
+        console.log('Finding product', product);
+        return product.productId === payload.product.productId;
+      });
       const updatedProducts = [...allProducts];
+      console.log(updatedProducts);
+      console.log(index);
       updatedProducts[index].stock -= payload.quantity;
       return { ...state, allProducts: updatedProducts };
 
