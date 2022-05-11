@@ -1,5 +1,14 @@
+import { Typography } from '@mui/material';
+
 function Header() {
-  return <p>Header WIP</p>;
+  return (
+    <header>
+      <Typography variant="h1" color="primary">
+        Our Store
+      </Typography>
+      <hr />
+    </header>
+  );
 }
 
 export default Header;
