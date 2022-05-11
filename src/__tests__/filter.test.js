@@ -1,4 +1,4 @@
-import { screen, render, fireEvent } from '@testing-library/react';
+import { screen, render, within, fireEvent } from '@testing-library/react';
 import App from '../App';
 
 import { Provider } from 'react-redux';
@@ -16,8 +16,8 @@ test('Testing that product list can be filtered', () => {
   const selectElem = screen.getByTestId(/categories-select/i);
   expect(selectElem).toHaveTextContent(/all/i)
 
-  const selectButtonElem = screen.getAllByRole('button')[0];
-  fireEvent.mouseDown(selectButtonElem );
+  const selectButtonElem = within(selectElem).getByRole('button');
+  fireEvent.mouseDown(selectButtonElem);
 
   const electronicsElem = screen.getByTestId(/category-electronics/i);
   fireEvent.click(electronicsElem);
