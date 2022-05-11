@@ -4,6 +4,7 @@ const allProducts = [
     displayName: 'Macbook',
     description: 'An Apple computer',
     price: 999.99,
+    stock: 50,
     category: 'electronics',
   },
   {
@@ -11,6 +12,7 @@ const allProducts = [
     displayName: 'iPhone',
     description: "The most addictive thing you'll ever own",
     price: 1199.99,
+    stock: 100,
     category: 'electronics',
   },
   {
@@ -18,6 +20,7 @@ const allProducts = [
     displayName: 'Banana',
     description: 'A yellow fruit',
     price: 0.99,
+    stock: 50,
     category: 'food',
   },
   {
@@ -25,6 +28,7 @@ const allProducts = [
     displayName: 'Apple',
     description: 'The fruit kind',
     price: 2.49,
+    stock: 10,
     category: 'food',
   },
 ];
