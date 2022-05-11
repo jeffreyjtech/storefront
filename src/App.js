@@ -6,12 +6,14 @@ import { Box } from '@mui/material';
 
 function App() {
   return (
-    <Box className="App" sx={{ p: 2 }} >
-      <Header />
-      <Categories />
-      <Products />
-      <Footer />
-    </Box>
+    <div className="App">
+      <Box sx={{ p: 2 }}>
+        <Header />
+        <Categories />
+        <Products />
+        <Footer />
+      </Box>
+    </div>
   );
 }
 
