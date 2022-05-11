@@ -18,9 +18,14 @@ function Categories({ categories, activeCategory, setActiveCategory, filterProdu
         filterProducts(newCategoryKey);
       }}
       value={activeCategory.key}
+      data-testid="categories-select"
     >
       {categories.map((category) => (
-        <MenuItem key={shortUUID.generate()} value={category.key}>
+        <MenuItem
+          key={shortUUID.generate()}
+          value={category.key}
+          data-testid={`category-${category.key}`}
+        >
           {category.displayName}
         </MenuItem>
       ))}
