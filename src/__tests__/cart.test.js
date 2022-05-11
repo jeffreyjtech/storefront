@@ -29,14 +29,15 @@ describe('Testing cart and related features', () => {
       </Provider>
     );
 
-    let stockDisplay = screen.queryByText(/50/i);
-    expect(stockDisplay).toBeInTheDocument();
+    const initialStockDisplay = screen.queryAllByText(/In-stock/i)[0];
+    expect(initialStockDisplay).toHaveTextContent(/\d+/i);
 
     const addToCartButton = screen.getAllByTestId(/addtocart/i)[0];
     fireEvent.click(addToCartButton);
 
-    stockDisplay = screen.getByText(/49/i);
-    expect(stockDisplay).toBeInTheDocument();
+    const finalStockDisplay = screen.queryAllByText(/In-stock:/i)[0];
+    expect(finalStockDisplay).toHaveTextContent(/\d+/i);
+    expect(finalStockDisplay).not.toStrictEqual(initialStockDisplay);
   });
 
   test('Cart quantity increases by 1 each time an item is added', () => {
