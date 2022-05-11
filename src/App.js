@@ -9,7 +9,9 @@ function App() {
     <div className="App">
       <Box sx={{ p: 2 }}>
         <Header />
-        <Categories />
+        <Box sx={{ float: 'right' }}>
+          <Categories />
+        </Box>
         <Products />
         <Footer />
       </Box>
