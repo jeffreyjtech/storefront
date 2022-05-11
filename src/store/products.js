@@ -39,7 +39,7 @@ const initialState = {
 };
 
 export default function productsReducer(state = initialState, { type, payload }) {
-  const { allProducts, displayMask } = state;
+  const { allProducts } = state;
 
   switch (type) {
     case 'FILTER':
@@ -51,13 +51,10 @@ export default function productsReducer(state = initialState, { type, payload })
 
     case 'REMOVE-STOCK':
       // Find the product
-      const index = allProducts.findIndex((product) => {
-        console.log('Finding product', product);
-        return product.productId === payload.product.productId;
-      });
+      const index = allProducts.findIndex(
+        (product) => product.productId === payload.product.productId
+      );
       const updatedProducts = [...allProducts];
-      console.log(updatedProducts);
-      console.log(index);
       updatedProducts[index].stock -= payload.quantity;
       return { ...state, allProducts: updatedProducts };
 
