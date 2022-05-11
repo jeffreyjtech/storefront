@@ -5,24 +5,34 @@ import shortUUID from 'short-uuid';
 
 import Product from './Product';
 import { Grid, Typography } from '@mui/material';
+import Categories from './Categories';
 
-function Products({ filteredProducts, filterProducts, resetProducts }) {
+function Products({ allProducts, displayMask }) {
   return (
     <div className="products-display">
-      <Typography variant="h2">Browse our wares</Typography>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Typography variant="h2" sx={{ display: 'inline' }}>
+          Browse our wares
+        </Typography>
+        <span>
+          <Categories />
+        </span>
+      </div>
       <Grid container spacing={2}>
-        {filteredProducts.map((product) => (
-          <Grid key={shortUUID.generate()} item xs={12} sm={6} md={3} lg={2}>
-            <Product product={product} />
-          </Grid>
-        ))}
+        {allProducts.map((product, idx) =>
+          displayMask[idx] ? (
+            <Grid key={shortUUID.generate()} item xs={12} sm={6} md={3} lg={2}>
+              <Product product={product} />
+            </Grid>
+          ) : null
+        )}
       </Grid>
     </div>
   );
 }
 
 const mapStateToProps = ({ products }) => {
-  return { filteredProducts: products.filteredProducts };
+  return { allProducts: products.allProducts, displayMask: products.displayMask };
 };
 
 export default connect(mapStateToProps)(Products);

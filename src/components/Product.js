@@ -1,7 +1,12 @@
 import { Button, Card, CardContent, CardHeader } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../store/cart';
+import { removeFromStock } from '../store/products';
 
-function Product({ product }) {
+export default function Product({ product }) {
   const { displayName, price, description, category, productId, stock } = product;
+
+  const dispatch = useDispatch();
 
   return (
     <Card variant="outlined" data-testid={`product-${category}-${productId}`}>
@@ -10,10 +15,16 @@ function Product({ product }) {
         <p>{description}</p>
         <span>{price}</span> <span style={{ float: 'right' }}>In-stock: {stock}</span>
         <hr />
-        <Button>Add to cart</Button>
+        <Button
+          onClick={() => {
+            dispatch(addToCart(product));
+            dispatch(removeFromStock(product, 1));
+          }}
+          data-testid={`addtocart-${productId}`}
+        >
+          Add to cart
+        </Button>
       </CardContent>
     </Card>
   );
 }
-
-export default Product;
