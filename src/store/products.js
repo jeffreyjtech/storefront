@@ -43,16 +43,21 @@ export default function productsReducer(state = initialState, { type, payload })
 
   switch (type) {
     case 'FILTER':
-      if (payload.category === 'all') {
-        return initialState;
-      } else {
-        const modifiedState = {
-          filteredProducts: allProducts.filter((product) => {
-            return product.category === payload.category;
-          }),
-        };
-        return { ...state, ...modifiedState };
-      }
+      const modifiedState = {
+        filteredProducts: allProducts.filter((product) => {
+          return product.category === payload.category;
+        }),
+      };
+      return { ...state, ...modifiedState };
+
+    case 'REMOVE-STOCK':
+      // Find the product
+      const index = allProducts.indexOf(
+        (product) => product.productId === payload.product.productId
+      );
+      const updatedProducts = [...allProducts];
+      updatedProducts[index].stock -= payload.quantity;
+      return { ...state, allProducts: updatedProducts };
 
     case 'RESET':
       return initialState;
@@ -64,10 +69,15 @@ export default function productsReducer(state = initialState, { type, payload })
 
 // This is an action creator
 export const filterProducts = (category) => {
+  return category === 'all'
+    ? { type: 'RESET' }
+    : { type: 'FILTER', payload: { category } };
+};
+
+export const removeFromStock = (product, quantity) => {
   return {
-    // And this is an action (I think)
-    type: 'FILTER',
-    payload: { category },
+    type: 'REMOVE-STOCK',
+    payload: { product, quantity },
   };
 };
 
