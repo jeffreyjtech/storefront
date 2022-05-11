@@ -5,31 +5,34 @@ import { filterProducts } from '../store/products';
 
 import shortUUID from 'short-uuid';
 
-import { MenuItem, Select } from '@mui/material';
+import { Box, MenuItem, Select } from '@mui/material';
 
 function Categories({ categories, activeCategory, setActiveCategory, filterProducts }) {
   return (
-    <Select
-      label="Category"
-      onChange={(e) => {
-        e.preventDefault();
-        const newCategoryKey = e.target.value;
-        setActiveCategory(newCategoryKey);
-        filterProducts(newCategoryKey);
-      }}
-      value={activeCategory.key}
-      data-testid="categories-select"
-    >
-      {categories.map((category) => (
-        <MenuItem
-          key={shortUUID.generate()}
-          value={category.key}
-          data-testid={`category-${category.key}`}
-        >
-          {category.displayName}
-        </MenuItem>
-      ))}
-    </Select>
+    <>
+      <Box component="span" sx={{ p: 1 }}>Select a category</Box>
+      <Select
+        label="Category"
+        onChange={(e) => {
+          e.preventDefault();
+          const newCategoryKey = e.target.value;
+          setActiveCategory(newCategoryKey);
+          filterProducts(newCategoryKey);
+        }}
+        value={activeCategory.key}
+        data-testid="categories-select"
+      >
+        {categories.map((category) => (
+          <MenuItem
+            key={shortUUID.generate()}
+            value={category.key}
+            data-testid={`category-${category.key}`}
+          >
+            {category.displayName}
+          </MenuItem>
+        ))}
+      </Select>
+    </>
   );
 }
 
