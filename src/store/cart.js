@@ -14,6 +14,7 @@ export default function cartReducer(state = initialState, { type, payload }) {
         newContents[index].quantity++;
         return { ...state, contents: newContents };
       } else {
+        payload.product.quantity = payload.quantity || 1;
         return { ...state, contents: [...contents, payload.product] };
       }
 
@@ -23,22 +24,8 @@ export default function cartReducer(state = initialState, { type, payload }) {
 }
 
 export const addToCart = (product) => {
-  const productInterfaceKeys = [
-    'productId',
-    'displayName',
-    'description',
-    'price',
-    'stock',
-    'category',
-  ];
-  if (Object.keys(product) === productInterfaceKeys) {
-    return {
-      type: 'ADD',
-      payload: { product },
-    };
-  } else {
-    return {
-      type: null,
-    };
-  }
+  return {
+    type: 'ADD',
+    payload: { product },
+  };
 };
