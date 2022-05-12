@@ -2,7 +2,11 @@
 // Return our action after it runs
 
 const thunk = (store) => (next) => (action) => {
-  typeof action === 'function' ? action(store.dispatch, store.getState) : next(action);
+  if (typeof action === 'function') {
+    action(store.dispatch, store.getState);
+  } else {
+    next(action);
+  }
 };
 
 export default thunk;
