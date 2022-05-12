@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const allProducts = [
   {
     productId: 'macbook',
@@ -79,6 +81,22 @@ export const removeFromStock = (product, quantity) => {
     payload: { product, quantity },
   };
 };
+
+/*
+Get from an API
+This action creator isn't a real action creator.
+Instead it's an async function which will run as if it's real redux middleware
+Thanks to thunk
+*/
+
+export const getProducts = () => async (dispatch, getState) => {
+  let response = await axios.get('https://api-js401.herokuapp.com/api/v1/products');
+  console.log(response);
+  dispatch({
+    type: 'GET_PRODUCTS',
+    payload: response.data,
+  })
+}
 
 export const resetProducts = () => {
   return {
