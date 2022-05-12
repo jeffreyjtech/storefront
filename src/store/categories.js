@@ -42,7 +42,6 @@ export default function categoriesReducer(state = initialState, { type, payload 
 
 export const getCategories = () => async (dispatch, getState) => {
   let response = await axios.get('https://api-js401.herokuapp.com/api/v1/categories');
-  console.log(response.data);
   dispatch({
     type: 'GET_CATEGORIES',
     payload: response.data,
