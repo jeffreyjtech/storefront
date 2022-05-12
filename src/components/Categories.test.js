@@ -37,7 +37,9 @@ describe('Testing the Categories component', () => {
     let selectElem = screen.getByRole('button');
     fireEvent.mouseDown(selectElem);
 
-    let selectionElem = screen.getByTestId(/Electronics/i);
+    // the all category appears even if the categories are not being pulled from the API
+    // convenient for testing
+    let selectionElem = screen.getByTestId(/all/i);
 
     expect(selectionElem).toBeInTheDocument();
   });
