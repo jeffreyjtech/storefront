@@ -11,7 +11,7 @@ export default function SimpleCart() {
       {contents.map((product) => (
         <ListItem key={shortUUID.generate()}>
           <ListItemText>
-            {product.displayName} <br/> qty: {product.quantity}
+            {product.name} <br/> qty: {product.quantity}
           </ListItemText>
         </ListItem>
       ))}
