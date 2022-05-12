@@ -31,16 +31,10 @@ export default function categoriesReducer(state = initialState, { type, payload 
 
     case 'ACTIVE':
       // action requires a payload object with property category
-      const selection = categories.find(
-        (category) => category.name === payload.category.name
-      );
-      if (selection) {
-        return { ...state, activeCategory: selection };
-      }
-      return state;
+      return { ...state, activeCategory: payload.category };
 
-    case 'RESET':
-      return initialState;
+    // case 'RESET':
+    //   return state;
 
     default:
       return state;
@@ -57,15 +51,14 @@ export const getCategories = () => async (dispatch, getState) => {
 };
 
 export const setActiveCategory = (category) => {
-  console.log('Setting active category', category);
   return {
     type: 'ACTIVE',
     payload: { category },
   };
 };
 
-export const resetActiveCategory = () => {
-  return {
-    type: 'RESET',
-  };
-};
+// export const resetActiveCategory = () => {
+//   return {
+//     type: 'RESET',
+//   };
+// };
