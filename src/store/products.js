@@ -18,7 +18,7 @@ export default function productsReducer(state = initialState, { type, payload })
 
     case 'FILTER':
       const newDisplayMask = allProducts.map((product) =>
-        product.category === payload.category ? product.name : null
+        product.category === payload.category.name ? product.name : null
       );
 
       return { ...state, displayMask: newDisplayMask };
@@ -46,7 +46,7 @@ export default function productsReducer(state = initialState, { type, payload })
 
 // This is an action creator
 export const filterProducts = (category) => {
-  return category === 'all'
+  return category.name === 'all'
     ? { type: 'RESET' }
     : { type: 'FILTER', payload: { category } };
 };
