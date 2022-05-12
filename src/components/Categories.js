@@ -1,34 +1,45 @@
 // Redux stuff
-import { connect } from 'react-redux';
-import { setActiveCategory, resetActiveCategory } from '../store/categories';
+import { useDispatch, useSelector } from 'react-redux';
+import { setActiveCategory, getCategories } from '../store/categories';
 import { filterProducts } from '../store/products';
 
 import shortUUID from 'short-uuid';
 
 import { Box, MenuItem, Select } from '@mui/material';
+import { useEffect, useState } from 'react';
 
-function Categories({ categories, activeCategory, setActiveCategory, filterProducts }) {
+function Categories() {
+  const activeCategory = useSelector((state) => state.categories.activeCategory);
+  const categories = useSelector((state) => state.categories.categories);
+  const dispatch = useDispatch();
+
+  const [selection, setSelection] = useState({});
+
+  useEffect(() => {
+    dispatch(getCategories());
+  }, [dispatch]);
+
   return (
     <>
       <Box component="span" sx={{ p: 1 }}>Select a category</Box>
       <Select
         label="Category"
-        onChange={(e) => {
-          e.preventDefault();
-          const newCategoryKey = e.target.value;
-          setActiveCategory(newCategoryKey);
-          filterProducts(newCategoryKey);
+        onChange={() => {
+          console.log('Logging selection',selection)
+          dispatch(setActiveCategory(selection));
+          dispatch(filterProducts(selection));
         }}
-        value={activeCategory.key}
+        value={activeCategory.name}
         data-testid="categories-select"
       >
         {categories.map((category) => (
           <MenuItem
             key={shortUUID.generate()}
-            value={category.key}
-            data-testid={`category-${category.key}`}
+            value={category.name}
+            data-testid={`category-${category.name}`}
+            onMouseOver={() => setSelection(category)}
           >
-            {category.displayName}
+            {category.name}
           </MenuItem>
         ))}
       </Select>
@@ -40,21 +51,22 @@ function Categories({ categories, activeCategory, setActiveCategory, filterProdu
 // Important thing is that it will have the properties defined in the whole state object
 // We define it's shape in the respective store file (../store/categories.js)
 // When this React app starts, this magical redux state object will be in it's initial form
-const mapStateToProps = ({ categories }) => {
-  return {
-    categories: categories.categories,
-    activeCategory: categories.activeCategory,
-  };
-};
 
-const mapDispatchToProps = {
-  setActiveCategory,
-  resetActiveCategory,
-  filterProducts,
-};
+// const mapStateToProps = ({ categories }) => {
+//   return {
+//     categories: categories.categories,
+//     activeCategory: categories.activeCategory,
+//   };
+// };
+
+// const mapDispatchToProps = {
+//   setActiveCategory,
+//   resetActiveCategory,
+//   filterProducts,
+// };
 
 // connect() takes in a stateToProps function and an object containing the dispatch functions
 // The dispatch functions must be imported in from their respective store files (../store/categories.js & ../store/products.js)
 // It curries some internal function in React-Redux and then returns it
 // That return function is invoked with our React component to do the connection magic
-export default connect(mapStateToProps, mapDispatchToProps)(Categories);
+export default Categories;
