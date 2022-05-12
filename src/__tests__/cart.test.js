@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import createStore from '../store';
 
 describe('Testing cart and related features', () => {
-  test('Products can be added to cart', () => {
+  test('Products can be added to cart', async () => {
     render(
       <Provider store={createStore()}>
         <App />
@@ -15,48 +15,55 @@ describe('Testing cart and related features', () => {
     let qtyDisplay = screen.queryByText(/qty/i);
     expect(qtyDisplay).not.toBeInTheDocument();
 
-    const addToCartButton = screen.getAllByTestId(/addtocart/i)[0];
+    const allButtons = await screen.findAllByTestId(/addtocart/i);
+    const addToCartButton = allButtons[0];
     fireEvent.click(addToCartButton);
 
     qtyDisplay = screen.getByText(/qty/i);
     expect(qtyDisplay).toBeInTheDocument();
   });
 
-  test('Stock level decreases when item is added to cart', () => {
+  test('Stock level decreases when item is added to cart', async () => {
     render(
       <Provider store={createStore()}>
         <App />
       </Provider>
     );
 
-    const initialStockDisplay = screen.queryAllByText(/In-stock/i)[0];
+    let allDisplays = await screen.findAllByText(/In-stock/i)
+    const initialStockDisplay = allDisplays[0];
     expect(initialStockDisplay).toHaveTextContent(/\d+/i);
 
     const addToCartButton = screen.getAllByTestId(/addtocart/i)[0];
     fireEvent.click(addToCartButton);
 
-    const finalStockDisplay = screen.queryAllByText(/In-stock:/i)[0];
+    allDisplays = await screen.findAllByText(/In-stock:/i);
+
+    const finalStockDisplay = allDisplays[0];
     expect(finalStockDisplay).toHaveTextContent(/\d+/i);
     expect(finalStockDisplay).not.toStrictEqual(initialStockDisplay);
   });
 
-  test('Cart quantity increases by 1 each time an item is added', () => {
+  test('Cart quantity increases by 1 each time an item is added', async () => {
     render(
       <Provider store={createStore()}>
         <App />
       </Provider>
     );
 
-    let addToCartButton = screen.getAllByTestId(/addtocart/i)[0];
+    let allButtons = await screen.findAllByTestId(/addtocart/i);
+    let addToCartButton = allButtons[0];
     fireEvent.click(addToCartButton);
     
     let qtyDisplay = screen.getByText(/qty/i);
     expect(qtyDisplay).toHaveTextContent(/1/i);
 
-    addToCartButton = screen.getAllByTestId(/addtocart/i)[0];
+    allButtons = await screen.findAllByTestId(/addtocart/i);
+    addToCartButton = allButtons[0];
     fireEvent.click(addToCartButton);
 
-    qtyDisplay = screen.getByText(/qty/i);
+    // I'm awaiting the last screen so the test suite hopefully closes after it's done doing API requests
+    qtyDisplay = await screen.findByText(/qty/i);
     expect(qtyDisplay).toHaveTextContent(/2/i);
   });
 });
