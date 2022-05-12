@@ -4,25 +4,25 @@ import App from '../App';
 import { Provider } from 'react-redux';
 import createStore from '../store';
 
-test('Testing that product list can be filtered', () => {
+test('Testing that product list can be filtered', async () => {
   render(
     <Provider store={createStore()}>
       <App />
     </Provider>
   );
 
-  const allProducts = screen.getAllByTestId(/product/i)
+  const allProducts = await screen.findAllByTestId(/product/i)
 
   const selectElem = screen.getByTestId(/categories-select/i);
   expect(selectElem).toHaveTextContent(/all/i)
 
-  const selectButtonElem = within(selectElem).getByRole('button');
+  const selectButtonElem = await within(selectElem).findByRole('button');
   fireEvent.mouseDown(selectButtonElem);
 
-  const electronicsElem = screen.getByTestId(/category-electronics/i);
-  fireEvent.click(electronicsElem);
+  const allElem = await screen.findByTestId(/category-electronics/i);
+  fireEvent.click(allElem);
 
-  const filterProducts = screen.getAllByTestId(/product/i)
-
+  // I'm awaiting the last screen so the test suite hopefully closes after it's done doing API requests
+  const filterProducts = await screen.findAllByTestId(/product/i)
   expect(filterProducts.length).toBeLessThan(allProducts.length);
 });
