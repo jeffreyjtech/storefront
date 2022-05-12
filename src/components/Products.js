@@ -1,13 +1,30 @@
-// Redux stuff
-import { connect } from 'react-redux';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
 import shortUUID from 'short-uuid';
-
-import Product from './Product';
 import { Grid, Typography } from '@mui/material';
+
+import { getProducts } from '../store/products';
+import Product from './Product';
 import Categories from './Categories';
 
-function Products({ allProducts, displayMask }) {
+function Products() {
+  const displayMask = useSelector((state) => state.products.displayMask);
+  const allProducts = useSelector((state) => state.products.allProducts);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
+
+
+  const productsList = allProducts.map((product, idx) =>
+    displayMask[idx] ? (
+      <Grid key={shortUUID.generate()} item xs={12} sm={6} md={3} lg={2}>
+        <Product product={product} />
+      </Grid>
+    ) : null
+  );
+
   return (
     <div className="products-display">
       <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -19,20 +36,10 @@ function Products({ allProducts, displayMask }) {
         </span>
       </div>
       <Grid container spacing={2}>
-        {allProducts.map((product, idx) =>
-          displayMask[idx] ? (
-            <Grid key={shortUUID.generate()} item xs={12} sm={6} md={3} lg={2}>
-              <Product product={product} />
-            </Grid>
-          ) : null
-        )}
+        {productsList}
       </Grid>
     </div>
   );
 }
 
-const mapStateToProps = ({ products }) => {
-  return { allProducts: products.allProducts, displayMask: products.displayMask };
-};
-
-export default connect(mapStateToProps)(Products);
+export default Products;
