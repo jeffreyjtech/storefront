@@ -24,13 +24,13 @@ export default function productsReducer(state = initialState, { type, payload })
       return { ...state, displayMask: newDisplayMask };
 
     case 'REMOVE_STOCK':
-      // Find the product
-      const index = allProducts.findIndex(
-        (product) => product.productId === payload.product.productId
-      );
-      const updatedProducts = [...allProducts];
-      updatedProducts[index].stock -= payload.quantity;
-      return { ...state, allProducts: updatedProducts };
+      return {
+        ...state,
+        allProducts: allProducts.map((product) => {
+          if (product.name === payload.product.name) product.inStock -= payload.quantity;
+          return product;
+        }),
+      };
 
     // case 'GET_PRODUCTS':
     //   return {...state, allProducts: payload}
@@ -51,23 +51,26 @@ export const filterProducts = (category) => {
     : { type: 'FILTER', payload: { category } };
 };
 
-export const removeFromStock = (product, quantity) => {
-  return {
+export const removeFromStock = (product, quantity) => async (dispatch, getState) => {
+  axios.put(`https://api-js401.herokuapp.com/api/v1/products/${product._id}`, {
+    ...product,
+    inStock: product.inStock - quantity,
+  });
+  dispatch({
     type: 'REMOVE_STOCK',
     payload: { product, quantity },
-  };
+  });
 };
 
 /*
 Get from an API
 This action creator isn't a real action creator.
-Instead it's an async function which will run as if it's real redux middleware
+Instead it's an async function which will run as if it's real action creator
 Thanks to thunk
 */
 
 export const getProducts = () => async (dispatch, getState) => {
   let response = await axios.get('https://api-js401.herokuapp.com/api/v1/products');
-  console.log(response.data);
   dispatch({
     type: 'GET_PRODUCTS',
     payload: response.data,
