@@ -25,7 +25,6 @@ function Categories() {
       <Select
         label="Category"
         onChange={() => {
-          console.log('Logging selection',selection)
           dispatch(setActiveCategory(selection));
           dispatch(filterProducts(selection));
         }}
