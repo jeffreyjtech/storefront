@@ -6,14 +6,12 @@ import { filterProducts } from '../store/products';
 import shortUUID from 'short-uuid';
 
 import { Box, MenuItem, Select } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 function Categories() {
   const activeCategory = useSelector((state) => state.categories.activeCategory);
   const categories = useSelector((state) => state.categories.categories);
   const dispatch = useDispatch();
-
-  const [selection, setSelection] = useState({});
 
   useEffect(() => {
     dispatch(getCategories());
@@ -24,10 +22,6 @@ function Categories() {
       <Box component="span" sx={{ p: 1 }}>Select a category</Box>
       <Select
         label="Category"
-        onChange={() => {
-          dispatch(setActiveCategory(selection));
-          dispatch(filterProducts(selection));
-        }}
         value={activeCategory.name}
         data-testid="categories-select"
       >
@@ -36,7 +30,10 @@ function Categories() {
             key={shortUUID.generate()}
             value={category.name}
             data-testid={`category-${category.name}`}
-            onMouseOver={() => setSelection(category)}
+            onClick={() => {
+              dispatch(setActiveCategory(category));
+              dispatch(filterProducts(category));
+            }}
           >
             {category.name}
           </MenuItem>
