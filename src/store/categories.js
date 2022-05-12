@@ -16,7 +16,6 @@ const initialState = {
 };
 
 export default function categoriesReducer(state = initialState, { type, payload }) {
-  const { categories } = state;
 
   switch (type) {
     case 'GET_CATEGORIES':
