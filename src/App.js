@@ -1,20 +1,20 @@
 import Header from './components/Header';
-import Products from './components/Products';
 import Footer from './components/Footer';
-import { Box } from '@mui/material';
-import SimpleCart from './components/SimpleCart';
+import { Route, Routes } from 'react-router-dom';
+import Home from './routes/Home';
+import ProductDetails from './routes/ProductDetails';
+import ShoppingCart from './routes/ShoppingCart';
 
 function App() {
   return (
     <div className="App">
-      <Box sx={{ p: 2 }}>
-        <Header />
-        <Box sx={{ float: 'right' }}>
-          <SimpleCart />
-        </Box>
-        <Products />
-        <Footer />
-      </Box>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/products/:productId" element={<ProductDetails />} />
+        <Route path="/cart" element={<ShoppingCart />} />
+      </Routes>
+      <Footer />
     </div>
   );
 }
