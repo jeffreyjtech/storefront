@@ -9,9 +9,13 @@ An online shopping portal for a fictional store.
 
 ## UML
 
-![My Virtual Store React app architecture v3](assets/lab-38-uml.jpg)
+![My Virtual Store React app architecture v4](assets/lab-39-uml.jpg)
 
 ## Previous UMLs
+
+### v3 (Lab 38)
+
+![My Virtual Store React app architecture v3](assets/lab-38-uml.jpg)
 
 ### v2 (Lab 37)
 
