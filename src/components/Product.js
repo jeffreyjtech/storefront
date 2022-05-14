@@ -1,7 +1,6 @@
 import { Button, Card, CardContent, CardHeader } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../store/cart';
-import { removeFromStock } from '../store/products';
 
 export default function Product({ product }) {
   const { displayName, price, description, category, productId, stock } = product;
@@ -18,7 +17,6 @@ export default function Product({ product }) {
         <Button
           onClick={() => {
             dispatch(addToCart(product));
-            dispatch(removeFromStock(product, 1));
           }}
           data-testid={`addtocart-${productId}`}
         >

@@ -40,6 +40,8 @@ const initialState = {
 
 export default function productsReducer(state = initialState, { type, payload }) {
   const { allProducts } = state;
+  let index;
+  let updatedProducts = [...allProducts];
 
   switch (type) {
     case 'FILTER':
@@ -49,13 +51,16 @@ export default function productsReducer(state = initialState, { type, payload })
 
       return { ...state, displayMask: newDisplayMask };
 
-    case 'REMOVE-STOCK':
+    case 'ADD-CART':
       // Find the product
-      const index = allProducts.findIndex(
-        (product) => product.productId === payload.product.productId
-      );
-      const updatedProducts = [...allProducts];
-      updatedProducts[index].stock -= payload.quantity;
+      index = allProducts.findIndex((product) => product === payload.product);
+      updatedProducts[index].stock--;
+      return { ...state, allProducts: updatedProducts };
+
+    case 'REMOVE-CART':
+      // Find the product
+      index = allProducts.findIndex((product) => product === payload.product);
+      updatedProducts[index].stock++;
       return { ...state, allProducts: updatedProducts };
 
     case 'RESET':
@@ -71,13 +76,6 @@ export const filterProducts = (category) => {
   return category === 'all'
     ? { type: 'RESET' }
     : { type: 'FILTER', payload: { category } };
-};
-
-export const removeFromStock = (product, quantity) => {
-  return {
-    type: 'REMOVE-STOCK',
-    payload: { product, quantity },
-  };
 };
 
 export const resetProducts = () => {
